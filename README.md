@@ -32,38 +32,42 @@ Syntax di atas digunakan untuk mengecek apakah file *makan_enak.txt* pernah dibu
 ```
 Syntax di atas digunakan untuk menyimpan alamat file yang akan kita buat ketika file *makan_enak.txt* pernah dibuka dalam rentang waktu 0-30 detik yang lalu. Nama file yang dibuat adalah *makan_sehat#.txt*, dengan # menandakan urutan file yang telah kita buat dimulai dari 1. Syntax di atas masih menyimpan nama file *makan_sehat* untuk bagian berikutnya ada di bawah ini. Alamat file yang akan kita buat di simpan di dalam array of char dengan menggunakan *strcpy*.
 
-```
+
 	char waktu[5];
 	sprintf(waktu, "%d", urutan);
-```	
+	
 
-Syntax di atas digunakan untuk mengubah urutan file yang masih berupa *integer* menjadi bentuk *array of char* dengan menggunakan *sprintf* 
+Syntax di atas digunakan untuk mengubah urutan file yang masih berupa *integer* menjadi bentuk *array of char* dengan menggunakan *sprintf*
 
 ```
-	strcat(makananCetak, waktu);
+	strcat(makananCetak, waktu);`
 ```
+
 Syntax di atas untuk menggabungkan nama file yang kita buat yang terdapat di *array of char* **makananCetak** (hanya berisi alamat file hingga *makan_sehat*, belum terdapat urutan file ke berapa yang telah dibuat) dengan *array of char* **waktu** (hanya berisi urutan waktu untuk menghitung file *makan_sehat* yang telah dibuat). Sehingga ketika digabung maka keduanya akan tersimpan di *array of char* **makananCetak**.
 
 ```
 	strcat(makananCetak, ".txt");
 ```
-	Syntax di atas untuk menggabungkan nama file yang kita buat dan urutan file (yang telah kita buat setelah proses *concat* sebelumnya) yang terdapat di *array of char* **makananCetak** (hanya berisi alamat file dan urutan file yang telah dibuat, belum terdapat ekstensi file yang akan dibuat) dengan **".txt"**(ekstensi file yang akan dibuat). Sehingga ketika digabung maka keduanya akan tersimpan di *array of char* **makananCetak**.
+
+Syntax di atas untuk menggabungkan nama file yang kita buat dan urutan file (yang telah kita buat setelah proses *concat* sebelumnya) yang terdapat di *array of char* **makananCetak** (hanya berisi alamat file dan urutan file yang telah dibuat, belum terdapat ekstensi file yang akan dibuat) dengan **".txt"**(ekstensi file yang akan dibuat). Sehingga ketika digabung maka keduanya akan tersimpan di *array of char* **makananCetak**.
 
 ```
 	FILE *filebaru = fopen(makananCetak, "w");
 	fclose(filebaru);
 ```
-	Syntax di atas digunakan untuk membuat file baru dengan nama menggunakan yang terdapat di *array of char* **makananCetak** dan *w* (write) menandakan file tersebut sekaligus mengalami perubahan. Setelah itu menutup file yang telah kita buat.
+
+Syntax di atas digunakan untuk membuat file baru dengan nama menggunakan yang terdapat di *array of char* **makananCetak** dan *w* (write) menandakan file tersebut sekaligus mengalami perubahan. Setelah itu menutup file yang telah kita buat.
 
 ```
 	urutan++;
 ```
-	Syntax di atas digunakan untuk menandakan file *makan_sehat* yang telah kita buat
+
+Syntax di atas digunakan untuk menandakan file *makan_sehat* yang telah kita buat
 
 ```
-    sleep(5);
+   	sleep(5);
 ```
-	Syntax di atas digunakan agar program C yang kita buat berjalan setiap 5 detik.
+Syntax di atas digunakan agar program C yang kita buat berjalan setiap 5 detik.
 
 
 
