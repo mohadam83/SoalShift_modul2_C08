@@ -6,12 +6,17 @@
 ## Soal Nomor 2
 Untuk soal nomor 2 ini menggunakan daemon, yang mana saya menggunakan sesuai template yang ada di modul. Untuk *main program* kelompok kami, seperti di bawah ini.
 ```
-DIR* folder = opendir("/home/adam/SoalShift_modul2_C08/Soal2/hatiku/");	
+DIR* folder; 
+	chdir("/home/adam/SoalShift_modul2_C08/Soal2/hatiku/");	
+	folder = opendir(".");
 ```
 Syntax di atas digunakan untuk menyimpan alamat folder yang sedang kita akses yang memiliki file *elen.ku* sesuai soal dan disimpan di *folder* dengan tipe *DIR*.
 
 ```
 	if(folder != NULL){
+	    perror("error");
+	    return 0;	
+	}
 ```
 Syntax di atas digunakan untuk mengecek jika tidak **NULL** maka proses akan berjalan. Jika tidak makan akan terdapat pesan *error* sesuai syntax di bagian *else* di bawah.
 
@@ -36,28 +41,22 @@ Syntax di atas digunakan untuk mengecek apakah nilai *file* NULL atau tidak, jik
 	    if(stat(filename, &st) < 0){
 		perror("error");	continue;
 	    }
-	    struct group *group_ = petgrgid(st.st_gid);	
+	    struct group *group_ = getgrgid(st.st_gid);	
 	    struct passwd *owner_ = getpwuid(st.st_uid);
 ```
 
 Syntax di atas digunakan untuk menyimpan data berupa owner dari file yang akan kita cek `**struct passwd *owner_ = getpwuid(st.st_uid);**` dan group dari file yang akan kita cek `** struct group *group_ = petgrgid(st.st_gid);**`.
-	
-``` 
-	char ubahpermission[5];
-	strcpy(ubahpermission, "0777");
-```
-
-Syntax di atas digunakan untuk menyimpan *permission* "0777" di *array of char* **ubahpermission** untuk dilakukan perubahan permission untuk file *elen.ku* yang prosesnya ada di bawah ini.
 
 ```
 	if(strcmp(group_->gr_name,"www-data") == 0 && strcmp(owner_->pw_name,"www-data") == 0){
-   	    if(chmod(filename, ubahpermission) < 0){
+   	    if(chmod(filename, 0777) < 0){
 		perror("error");
 	    }
 	    remove(filename);
 	}
 ```
-Syntax di atas digunakan untuk mengecek apakah group dan owner dari file yang sedang kita cek yaitu *elen.ku* merupakan "www-data" dengan menggunakan `strcmp()` . Jika iya maka mengubah permission menggunakan *chmod* dan kemudian menghapus file yang akan kita hapus, yaitu yang tersimpan di *array of char* **filename**.
+Syntax di atas digunakan untuk mengecek apakah group dan owner dari file yang sedang kita cek yaitu *elen.ku* merupakan "www-data" dengan menggunakan `strcmp()` . Jika iya maka mengubah permission menjadi *0777* menggunakan *chmod* dan kemudian menghapus file yang akan kita hapus, yaitu yang tersimpan di *array of char* **filename**.
+
 ```
 	    closedir(folder);
 	}
