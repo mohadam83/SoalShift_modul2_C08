@@ -382,5 +382,43 @@ Syntax di atas digunakan agar program C yang kita buat berjalan setiap 5 detik.
 
 
 ## Soal Nomor 5
+Di soal nomor 5 ini, pertama-tama buatlah daemon yang langkah pertamanya adalah menspawn proses menjadi induk dan anak dengan melakukan forking, kemudian membunuh proses induk. Setelah itu, ubah mode file menjadi umask(0). Karena Child Process harus memiliki unik SID yang berasal dari kernel agar prosesnya dapat berjalan, maka buatlah unique session ID (SID). Directori kerja yang aktif harus diubah ke suatu tempat yang telah pasti akan selalu ada. Lalu ubah directory kerja dengan implementasi fungsi chdir(). Selanjutnya tutup file descriptor standar menggunakan STDIN, STDOUT, dan STDERR. Lalu buat loop utama menggunakan while. Lalu buatlah string untuk menyimpan direktori syslog yang menyimpan tanggal, bulan, tahun serta jam dan menit.
+```
+time_t rawtime;
+        struct tm *info;
+        char waktu[50], folder[100];
+        time(&rawtime);
+        info = localtime(&rawtime);
+        strftime(waktu, sizeof(waktu), "%d:%m:%Y-%H:%M", info); 
+```
+Lalu buatlah kondisi dimana setiap 30 menit, maka file syslog yang sedang dibuat di folder sekarang akan dilanjutkan di folder baru dan berikanlah izin read, write, execute folder.
+```
+ if(menit%30==0){
+            sprintf(folder, "/home/salsha/log/%s/", waktu);
+            mkdir(folder, 0777);
+        }
+```
+Dalam 30 menit tersebut, dalam 1 folder akan membuat file yang berisikan log dalam format penamaan "log*.log", yang dimana * adalah daemon yang akan dijalankan setiap 1 menit, sehingga daemon akan di sleep selama 60 detik. Setiap daemon berjalan, * yang merupakan bilangan bulat akan terus melakukan increment nilai.
+```
+int no = menit+1;
+        char file[33], foldercpy[100];
+	strcpy(foldercpy,folder);
+        //strcpy(file, "");
+        sprintf(file, "log%d.log", no);
+        strcat(foldercpy,file);
+        
+        FILE *flog, *ffile;
+        ffile = fopen(foldercpy,"w");
+        flog = fopen("/var/log/syslog", "r");
+```
+```
+        sleep(60);
+        menit++;
+```
 
+Lalu jika ingin kill program yang berjalan, buatlah file .c baru seperti berikut yang akan menjalankan perintah pkill pada file yang programnya ingin di kill 
+```
+    char *argv[3] = {"pkill", "no5a", NULL};
+    execv("/usr/bin/pkill", argv);
+```
 
