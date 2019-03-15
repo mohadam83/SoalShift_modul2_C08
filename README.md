@@ -70,7 +70,59 @@ Syntax di atas digunakan untuk mengecek apakah group dan owner dari file yang se
 Syntax di atas digunakan untuk menutup *folder* yang telah kita akses sekarang dan *else* di atas jika *value* dari *folder* adalah **NULL**. Terakhir adalah `sleep(3)` digunakan agar file berjalan setiap 3 detik.
 
 ## Soal Nomor 3
+```
+pid_t proses1, proses2, proses3;
+int status;
+int simpan[2];
+```
+Syntax di atas merupakan deklarasi variabel proses dengan tipe pid_t, sementara simpan[2] merupakan file descriptor adalah array yang mana indeks ke 0 merupakan output yang dihasilkan di console dan indeks ke 1 untuk mengalihkan output yang di console agar di tampung di file descriptor, yaitu dengan nama *simpan*.
 
+```
+proses1 = fork();
+if (proses1 != 0) {
+    while((wait(&status)) > 0);
+    
+} 
+else {
+    char *array[] = {"unzip", "campur2.zip", NULL};
+    execv("/usr/bin/unzip", array);
+}
+```
+Syntax di atas digunakan untuk menduplikasi proses, yang mana proses yang baru(child proses) ketika proses1 = 0 yaitu melakukan *unzip* terhadap file *campur2.zip*. Sementara *parent process* yaitu ketika proses1 != 0 terdapat proses lagi di dalamnya untuk memanggil proses baru yang dijelaskan di bawah ini, tetapi sebelum itu harus menunggu bahwa *child proses* telah dilakukan terlebih dahulu dengan menggunakan `while((wait(&status)) > 0);`.
+
+```
+proses2 = fork();
+if (proses2 != 0) {
+	while((wait(&status)) > 0);
+} 
+else {
+	close(simpan[0]);
+	dup2(simpan[1], STDOUT_FILENO);
+
+	char *array[] = {"ls", "campur2", NULL};
+	execv("/bin/ls", array);
+}
+```
+Syntax di atas digunakan untuk menduplikasi proses dan syntax tersebut berada di bagian *parent process* dari proses1. Pada proses ini **(proses2)** kembali menggunakan `fork` dengan *child process* **proses2** nya adalah menduplikasi output yang dihasilkan dari proses menampilkan daftar file yang ada di folder **campur2** dengan menggunakan syntax berikut `(char *array[] = {"ls", "campur2", NULL}; execv("/bin/ls", array);)`. Untuk *parent process* dilakukan dengan menunggu *child process* telah dijalankan terlebih dahulu sehingga harus menunggu dengan menggunakan syntax `while((wait(&status)) > 0);`. Di dalam *parent process* proses2 ini terdapat proses lagi di dalamnya yang akan dijelaskan di bagian bawah ini.
+
+```
+proses3 = fork();
+if (proses3 == 0) {
+    char *array[] = {"touch", "daftar.txt", NULL};
+    execv("/usr/bin/touch", array);
+} else {
+    while((wait(&status)) > 0);
+    close(simpan[1]);
+    int bukaFileDaftar = open("daftar.txt", O_WRONLY);
+    dup2(bukaFileDaftar, STDOUT_FILENO);
+
+    dup2(simpan[0], STDIN_FILENO);
+
+    char *array[] = {"grep", ".txt$", NULL};
+    execv("/bin/grep", array);
+}
+```
+Syntax di atas terdapat di *parent process* dari **proses2** yang mana dilakukan duplikasi proses kembali dengan menggunakan `fork` dan dipanggil dari variabel **proses3**. Untuk *child process* dari **proses3** ini adalah melakukan pembuatan file baru dengan nama *daftar.txt* menggunakan `touch` dan `execv` seperti pada tampilan syntax di atas di bagian ketika `**proses3** = 0` *(child process)*. Sedangkan di *parent process* dari **proses3** ini adalah membuka file *daftar.txt* yang telah dibuat di *child process* kemudian pada file yang telah dibuka tersebut di isi (*write*) dengan nama-nama file yang ada di **simpan[1]**, tetapi tidak semua dari nama file tersebut langsung diisi ke file *daftar.txt*, namun hanya yang bertipe *.txt* sesuai permintaan di soal dengan menggunakan syntax *grep* seperti berikut `char *array[] = {"grep", ".txt$", NULL}; execv("/bin/grep", array);`.
 
 ## Soal Nomor 4
 
