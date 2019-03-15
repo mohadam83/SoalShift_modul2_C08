@@ -1,7 +1,7 @@
 # SoalShift_modul2_C08
 
 ## Soal Nomor 1
-
+Buatlah daemon yang langkah pertamanya adalah menspawn proses menjadi induk dan anak dengan melakukan forking, kemudian membunuh proses induk. Setelah itu, ubah mode file menjadi umask(0). Karena Child Process harus memiliki unik SID yang berasal dari kernel agar prosesnya dapat berjalan, maka buatlah unique session ID (SID). Directori kerja yang aktif harus diubah ke suatu tempat yang telah pasti akan selalu ada. Lalu ubah directory kerja dengan implementasi fungsi chdir(). Selanjutnya tutup file descriptor standar menggunakan STDIN, STDOUT, dan STDERR. Selanjutnya buat loop utama yang isinya membuat 2 variabel untuk folder tempat file lama berada dan folder tempat file baru berada. Buat beberapa variabel untuk nama file lama, nama file yang dihilangkan ekstensinya, nama untuk menyimpan string_grey.png , dan variabel untuk nama akhir. Jika directory yang dituju dapat dibuka dan terdapat file, isi variabel folder lama dengan alamat directory .../gambar/ dan isi variabel folder baru (gambar) dengan alamat directory asal file dengan ekstensi .img berada. Setelah itu copy nama file lama ke file3. Lalu bandingkan apakah isi dari file extention dan string ".png" sama dan apakah kondisinya memenuhi. Maka jadikan isi dari file extention sebagai eof, lalu copy isi dari file ke file2, gabungkan antara string dalam file2 dan nama file baru, folder lama dan file2, folder baru (gambar) dan file3, dan rename directory folder baru (gambar) menjadi directory folder lama. Setelah itu close directory yang dibuka. Lalu jalankan codingan.
 
 ## Soal Nomor 2
 ```
