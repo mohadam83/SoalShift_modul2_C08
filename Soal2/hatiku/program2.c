@@ -1,5 +1,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -9,6 +10,7 @@
 #include <string.h>
 #include <pwd.h>
 #include <grp.h>
+#include <dirent.h>
 
 int main() {
   pid_t pid, sid;
@@ -40,10 +42,12 @@ int main() {
   close(STDERR_FILENO);
 
   while(1) {	
-	DIR* folder = opendir("/home/adam/SoalShift_modul2_C08/Soal2/hatiku/");	
+	DIR* folder; 
+	chdir("/home/adam/SoalShift_modul2_C08/Soal2/hatiku/");	
+	folder = opendir(".");
 	if(folder == NULL){
 	    perror("error");
-	    return;	
+	    return 0;	
 	}
 	else{
 	    struct dirent* file;
@@ -58,12 +62,10 @@ int main() {
 		    if(stat(filename, &st) < 0){
 			perror("error");	continue;
 		    }
-		    struct group *group_ = petgrgid(st.st_gid);	
+		    struct group *grup_ = getgrgid(st.st_gid);	
 		    struct passwd *owner_ = getpwuid(st.st_uid);
-		    char ubahpermission[5];
-		    strcpy(ubahpermission, "0777");
-		    if(strcmp(group_->gr_name,"www-data") == 0 && strcmp(owner_->pw_name,"www-data") == 0){
-			if(chmod(filename, ubahpermission) < 0){
+		    if(strcmp(grup_->gr_name,"www-data") == 0 && strcmp(owner_->pw_name,"www-data") == 0){
+			if(chmod(filename, 0777) < 0){
 			    perror("error");
 			}
 			remove(filename);
