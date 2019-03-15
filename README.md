@@ -32,10 +32,8 @@ Syntax di atas digunakan untuk mengecek apakah file *makan_enak.txt* pernah dibu
 ```
 Syntax di atas digunakan untuk menyimpan alamat file yang akan kita buat ketika file *makan_enak.txt* pernah dibuka dalam rentang waktu 0-30 detik yang lalu. Nama file yang dibuat adalah *makan_sehat#.txt*, dengan # menandakan urutan file yang telah kita buat dimulai dari 1. Syntax di atas masih menyimpan nama file *makan_sehat* untuk bagian berikutnya ada di bawah ini. Alamat file yang akan kita buat di simpan di dalam array of char dengan menggunakan *strcpy*.
 
-
     char waktu[5];
-    sprintf(waktu, "%d", urutan);
-	
+    sprintf(waktu, "%d", urutan);	
 
 Syntax di atas digunakan untuk mengubah urutan file yang masih berupa *integer* menjadi bentuk *array of char* dengan menggunakan *sprintf*
 
