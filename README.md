@@ -50,12 +50,12 @@ Syntax di atas digunakan untuk menyimpan data berupa owner dari file yang akan k
 Syntax di atas digunakan untuk menyimpan *permission* "0777" di *array of char* **ubahpermission** untuk dilakukan perubahan permission untuk file *elen.ku* yang prosesnya ada di bawah ini.
 
 ```
-		    if(strcmp(group_->gr_name,"www-data") == 0 && strcmp(owner_->pw_name,"www-data") == 0){
-			if(chmod(filename, ubahpermission) < 0){
-			    perror("error");
-			}
-			remove(filename);
-		    }
+	if(strcmp(group_->gr_name,"www-data") == 0 && strcmp(owner_->pw_name,"www-data") == 0){
+   	    if(chmod(filename, ubahpermission) < 0){
+		perror("error");
+	    }
+	    remove(filename);
+	}
 ```
 Syntax di atas digunakan untuk mengecek apakah group dan owner dari file yang sedang kita cek yaitu *elen.ku* merupakan "www-data" dengan menggunakan `strcmp()` . Jika iya maka mengubah permission menggunakan *chmod* dan kemudian menghapus file yang akan kita hapus, yaitu yang tersimpan di *array of char* **filename**.
 ```
