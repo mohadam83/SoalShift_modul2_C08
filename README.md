@@ -10,6 +10,7 @@
 
 
 ## Soal Nomor 4
+
 	Untuk soal nomor 4 ini menggunakan daemon, yang mana saya menggunakan sesuai template yang ada di modul. Untuk *main program* kelompok kami, seperti di bawah ini.
 
 
@@ -17,6 +18,7 @@
     struct stat alamatMakanan;
     stat("/home/adam/SoalShift_modul2_C08/Soal4/Documents/makanan/makan_enak.txt", &alamatMakanan);
 ```
+
 	stat disini digunakan untuk mengakses alamat file dari file yang akan kita cek dan disimpan di **alamatMakanan**. File yang akan di cek adalah makan_enak.txt apakah pernah dibuka setidaknya 30 detik yang lalu.
 
 ```
